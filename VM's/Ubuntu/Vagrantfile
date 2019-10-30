@@ -1,0 +1,22 @@
+#Configuration Start
+Vagrant.configure("2") do |config|
+
+  #Box declaration
+  config.vm.box = "ubuntu/xenial64"
+
+  #Virtualbox an Hardware declaration
+  config.vm.provider "virtualbox" do |v|
+  v.name = "Ubuntu_Webserver"
+  v.memory = 4096
+  v.cpus = 2
+  vb.gui = true
+
+  #Network information
+  config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+
+  #Updates and Programms
+  apt-get update
+  apt-get upgrade
+  apt-get install -y apache2
+ 
+end
