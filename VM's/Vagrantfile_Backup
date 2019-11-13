@@ -1,0 +1,10 @@
+Vagrant.configure("2") do |config|
+  #VM BOX Ubuntu 
+  config.vm.box = "ubuntu/xenial64"
+  config.disksize.size = '10GB'
+  config.vm.provider "virtualbox" do |vb|
+	vb.memory = "4096"
+	vb.name = "Ubuntu"
+	vb.cpus = "4"
+  end
+end

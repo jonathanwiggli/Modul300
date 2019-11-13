@@ -1,0 +1,28 @@
+Vagrant.configure("2") do |config|
+
+  config.vm.define "ftp" do |ftp|
+    ftp.vm.box = "ubuntu/xenial64"
+    ftp.vm.hostname = "ftp"
+    ftp.vm.network "private_network", ip: "192.168.10.30"
+    ftp.vm.network "forwarded_port", guest:21, host:2121, auto_correct: true
+	
+	ftp.vm.provider "virtualbox" do |vb|
+      vb.memory = "2048"  
+    end
+    
+    ftp.vm.provision "shell", inline: <<-SHELL
+        sudo apt-get update
+        #FTP Server installieren
+        sudo apt-get -y install pure-ftpd-common pure-ftpd
+        #FTP Server konfigurieren
+        sudo groupadd ftpgroup
+        sudo useradd -g ftpgroup -d /dev/null -s /etc ftpuser
+        sudo pure-pw useradd test -u ftpuser -g ftpgroup -d /home/pubftp/test -N 10
+        #FTP Server neustarten
+		#sudo service pure-ftpd-common pure-ftpd restart
+        sudo /home/pubftp/test restart
+        #Tastaturlayout anpassen
+        sudo sed -i 's/XKBLAYOUT="us"/XKBLAYOUT="ch"/g' /etc/default/locale 
+	SHELL
+	end
+ end

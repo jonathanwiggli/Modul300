@@ -1,22 +1,61 @@
-#Configuration Start
 Vagrant.configure("2") do |config|
+  config.vm.define "WEB" do |web|
+	
+	#VM BOX Ubuntu 
+	web.vm.box = "ubuntu/xenial64"
+  
+	#VM Hostname
+	web.vm.hostname = "Ubuntu-WEB"
+  
+	#VM Network
+	web.vm.network "private_network", ip: "192.168.1.10"
+	web.vm.network "forwarded_port", guest: 80, host: 8080
 
-  #Box declaration
-  config.vm.box = "ubuntu/xenial64"
+	#Software
+	web.vm.provision "shell", inline: <<-SHELL
+		apt-get update
+		apt-get install apache2 -y
+		sudo sed -i 's/XKBLAYOUT="us"/XKBLAYOUT="ch"/g' /etc/default/locale
+	SHELL
+	
+	#VM Disksize
+	web.disksize.size = '10GB'
+  
+	#VM Provider and Specs
+	web.vm.provider "virtualbox" do |vb|
+		vb.memory = "2048"
+		vb.name = "Ubuntu-WEB"
+		vb.cpus = "2"
+		vb.gui = true
+	end
+  end
+  
+  config.vm.define "DB" do |db|
+	
+	#VM BOX Ubuntu 
+	db.vm.box = "ubuntu/xenial64"
+  
+	#VM Hostname
+	db.vm.hostname = "Ubuntu-DB"
+  
+	#VM Network
+	db.vm.network "private_network", ip: "192.168.1.20"
 
-  #Virtualbox an Hardware declaration
-  config.vm.provider "virtualbox" do |v|
-  v.name = "Ubuntu_Webserver"
-  v.memory = 4096
-  v.cpus = 2
-  vb.gui = true
-
-  #Network information
-  config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
-
-  #Updates and Programms
-  apt-get update
-  apt-get upgrade
-  apt-get install -y apache2
- 
-end
+	#Software
+	db.vm.provision "shell", inline: <<-SHELL
+		sudo apt-get update 
+		sudo sed -i 's/XKBLAYOUT="us"/XKBLAYOUT="ch"/g' /etc/default/locale
+	SHELL
+	
+	#VM Disksize
+	db.disksize.size = '10GB'
+  
+	#VM Provider and Specs
+	db.vm.provider "virtualbox" do |vb|
+		vb.memory = "2048"
+		vb.name = "Ubuntu-DB"
+		vb.cpus = "2"
+		vb.gui = true
+	end
+  end  
+ end
