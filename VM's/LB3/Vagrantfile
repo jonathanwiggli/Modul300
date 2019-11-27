@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest:80, host:8080, auto_correct: true
   config.vm.network "forwarded_port", guest:8081, host:8081, auto_correct: true
   config.vm.network "forwarded_port", guest:8082, host:8082, auto_correct: true
-  config.vm.network "forwarded_port", guest:3306, host:3306, auto_correct: true  
+  config.vm.network "forwarded_port", guest:20, host:1020, auto_correct: true
   for i in 32760..32780
     config.vm.network :forwarded_port, guest: i, host: i
   end
@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = "docker"
       
   #Sync Folder
-  config.vm.synced_folder "/Shared_Docker", "/vagrant"
+  config.vm.synced_folder "./Shared_Docker", "/vagrant"
 
   #VM Provider and Specs
   config.vm.provider "virtualbox" do |vb|
@@ -29,6 +29,6 @@ Vagrant.configure("2") do |config|
 
   # Docker Provisioner
   config.vm.provision "docker" do |d|
-   d.pull_images "ubuntu:14.04"
+   d.pull_images "ubuntu:16.04"
   end
 end
