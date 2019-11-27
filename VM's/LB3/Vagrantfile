@@ -1,0 +1,34 @@
+Vagrant.configure("2") do |config|
+
+  #VM BOX Ubuntu 
+  config.vm.box = "ubuntu/xenial64"
+
+  #VM Network Settings
+  config.vm.network "private_network", ip:"192.168.1.50"
+  config.vm.network "forwarded_port", guest:80, host:8080, auto_correct: true
+  config.vm.network "forwarded_port", guest:8081, host:8081, auto_correct: true
+  config.vm.network "forwarded_port", guest:8082, host:8082, auto_correct: true
+  config.vm.network "forwarded_port", guest:3306, host:3306, auto_correct: true  
+  for i in 32760..32780
+    config.vm.network :forwarded_port, guest: i, host: i
+  end
+
+  #VM Hostname  
+  config.vm.hostname = "docker"
+      
+  #Sync Folder
+  config.vm.synced_folder "/Shared_Docker", "/vagrant"
+
+  #VM Provider and Specs
+  config.vm.provider "virtualbox" do |vb|
+     vb.memory = "2048"
+     vb.name = "Docker"
+		 vb.cpus = "2"
+		 vb.gui = true
+  end
+
+  # Docker Provisioner
+  config.vm.provision "docker" do |d|
+   d.pull_images "ubuntu:14.04"
+  end
+end
