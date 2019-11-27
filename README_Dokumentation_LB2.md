@@ -74,26 +74,26 @@ Vagrant.configure("2") do |config|
 	
 	 end
 
-2. Konfiguration WEB WM (config_web.sh)
-•	sudo apt-get update
-•	sudo apt-get install apache2 -y
-•	sudo sed -i 's/XKBLAYOUT="us"/XKBLAYOUT="ch"/g' /etc/default/locale
-•	sudo ufw allow ssh
-•	sudo ufw allow http
-•	sudo ufw allow https
-•	sudo ufw --force enable
+	2. Konfiguration WEB WM (config_web.sh)
+	•	sudo apt-get update
+	•	sudo apt-get install apache2 -y
+	•	sudo sed -i 's/XKBLAYOUT="us"/XKBLAYOUT="ch"/g' /etc/default/locale
+	•	sudo ufw allow ssh
+	•	sudo ufw allow http
+	•	sudo ufw allow https
+	•	sudo ufw --force enable
 
 
 
-3. Konfiguration FTP WM (config_ftp.sh)
-•	sudo apt-get update 
-•	sudo apt-get install vsftpd -y
-•	sudo cp /vagrant/vsftpd.conf /etc
-•	sudo service vsftpd restart
-•	sudo sed -i 's/XKBLAYOUT="us"/XKBLAYOUT="ch"/g' /etc/default/locale
-•	sudo ufw allow ssh
-•	sudo ufw allow ftp
-•	sudo ufw --force enable
+	3. Konfiguration FTP WM (config_ftp.sh)
+	•	sudo apt-get update 
+	•	sudo apt-get install vsftpd -y
+	•	sudo cp /vagrant/vsftpd.conf /etc
+	•	sudo service vsftpd restart
+	•	sudo sed -i 's/XKBLAYOUT="us"/XKBLAYOUT="ch"/g' /etc/default/locale
+	•	sudo ufw allow ssh
+	•	sudo ufw allow ftp
+	•	sudo ufw --force enable
 
 Sicherheit:
 In den Shell Scripts für die einzelnen VM’s werden die Firewall Regeln erstellt damit nur der benötigte Zugriff aktiviert werden.
