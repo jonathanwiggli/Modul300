@@ -1,7 +1,6 @@
-#
-#	Einfache Apache Umgebung
-#
+#Ubuntu Version
 FROM ubuntu:16.04
+#Apache installation
 
 RUN apt-get update
 RUN apt-get -q -y install apache2 
