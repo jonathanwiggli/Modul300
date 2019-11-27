@@ -1,4 +1,4 @@
-# Modul300
+# LB2
 
 Software
 •	Visual Studio Code
