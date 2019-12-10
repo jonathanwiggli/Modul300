@@ -1,8 +1,0 @@
-local_enable=YES
-write_enable=YES
-chroot_local_user
-
-sudo useradd FTP1 -d /home/FTP -m -G sudo
-echo 'FTP1:Passwort1.' | sudo chpasswd
-echo 'ftp-user:user' | sudo chpasswd
-sudo chown -R FTP1:FTP1 /home/FTP
