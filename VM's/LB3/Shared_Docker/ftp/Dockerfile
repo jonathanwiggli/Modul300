@@ -6,7 +6,8 @@ RUN apt-get update
 RUN apt-get install vsftpd -y
 
 # Konfiguration FTP
-COPY /vagrant/ftp/vsftpd.conf /etc/vsftpd.conf
+
+VOLUME /etc/vsftpd
 
 RUN service vsftpd restart
 
