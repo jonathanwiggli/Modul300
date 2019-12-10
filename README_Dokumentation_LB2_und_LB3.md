@@ -98,3 +98,91 @@ Vagrant.configure("2") do |config|
 Sicherheit:
 In den Shell Scripts für die einzelnen VM’s werden die Firewall Regeln erstellt damit nur der benötigte Zugriff aktiviert werden.
 
+In der LB3 werden die beiden Service (Apache & FTP)auf einer virtuellen Maschine innerhalb eines Containers mit Docker realisiert.
+
+Neues Vagrantfile:
+
+Vagrant.configure("2") do |config|
+
+  #VM BOX Ubuntu 
+  config.vm.box = "ubuntu/xenial64"
+
+  #VM Network Settings
+  config.vm.network "private_network", ip:"192.168.1.50"
+  config.vm.network "forwarded_port", guest:8080, host:8080, auto_correct: true
+  config.vm.network "forwarded_port", guest:20, host:1020, auto_correct: true
+
+  #VM Hostname  
+  config.vm.hostname = "docker"
+
+  #Script
+	config.vm.provision :shell, path: "config_docker.sh"
+      
+  #Sync Folder
+  config.vm.synced_folder "./Shared_Docker", "/vagrant"
+
+  #VM Provider and Specs
+  config.vm.provider "virtualbox" do |vb|
+     vb.memory = "2048"
+     vb.name = "Docker" 
+		 vb.cpus = "2"
+		 vb.gui = true
+  end
+
+  # Docker Provisioner
+  config.vm.provision "docker" do |d|
+   d.pull_images "ubuntu:16.04"
+  end
+end
+
+Neeus Bash Script File:
+
+sudo apt-get update
+sudo sudo apt install docker.io -y
+cd /vagrant/apache
+sudo docker build -t apache .
+sudo docker run --rm -d -p 8080:80 -v `pwd`/web:/var/www/html --name apache apache
+cd /vagrant/ftp
+sudo docker build -t ftp .
+sudo docker run --rm -d -p 20:20 --name ftp ftp
+sudo sed -i 's/XKBLAYOUT="us"/XKBLAYOUT="ch"/g' /etc/default/locale
+
+Docker Files:
+1. Apache
+
+#Ubuntu Version
+FROM ubuntu:16.04
+#Apache installation
+
+RUN apt-get update
+RUN apt-get -q -y install apache2 
+
+# Konfiguration Apache
+ENV APACHE_RUN_USER www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_LOG_DIR /var/log/apache2
+
+RUN mkdir -p /var/lock/apache2 /var/run/apache2
+
+EXPOSE 80
+
+VOLUME /var/www/html
+
+CMD /bin/bash -c "source /etc/apache2/envvars && exec /usr/sbin/apache2 -DFOREGROUND"
+
+2. FTP
+
+#Ubuntu Version
+FROM ubuntu:16.04
+
+#FTP installation
+RUN apt-get update
+RUN apt-get install vsftpd -y
+
+# Konfiguration FTP
+COPY /vagrant/ftp/vsftpd.conf /etc/vsftpd.conf
+
+RUN service vsftpd restart
+
+EXPOSE 20
+
