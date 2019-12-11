@@ -1,0 +1,1 @@
+{"virtualbox":{"/var/www/html":{"guestpath":"/var/www/html","hostpath":"C:/Users/Jonathan/LokalesRepo/Modul300/VM's/LB2/Shared_WEB","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"C:/Users/Jonathan/LokalesRepo/Modul300/VM's/LB2","disabled":false,"__vagrantfile":true}}}
