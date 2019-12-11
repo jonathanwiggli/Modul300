@@ -82,8 +82,16 @@ Für das ganze wurde ein neues Vagrantfile erstellt. Im neuen Vagrantfile wird n
 # Shared Folder:
 Im neuen Shared Folder werden für die Container die benötigten Dateien und Dockerfiles abgelegt.
 
+	#Sync Folder
+  	config.vm.synced_folder "./Shared_Docker", "/vagrant"
+
 # Network:
 Die neue Maschine erhält eine fixe IP: 192.168.1.50. Ausserdem werden die benötigten Ports auf die lokale Maschine weitergeleitet.
+
+	#VM Network Settings
+  	config.vm.network "private_network", ip:"192.168.1.50"
+  	config.vm.network "forwarded_port", guest:8080, host:8080, auto_correct: true
+  	config.vm.network "forwarded_port", guest:1020, host:1020, auto_correct: true
 
 # Script:
 Neu gibt es nur noch ein Bashscript. In diesem Bash Script wird Docker installiert. Ausserdem werden die Container mithilfe Docker erstellt.
