@@ -75,7 +75,9 @@ Folgende Regeln sind auf der FTP VM konfiguriert:
 ## LB3
 In der LB3 werden die beiden Service (Apache & FTP) auf einer virtuellen Maschine innerhalb eines Containers mit Docker realisiert.
 
-Für das ganze wurde ein neues Vagrantfile erstellt. Im neuen Vagrantfile wird nur eine VM mit dem Name Docker erstellt. Ausserdem werdem im neuen Vagrantfile mit folgendem Command: d.pull_images "ubuntu:16.04" die Images für Ubuntu 16.04 zur korrekten Funktion von Docker gezogen.
+Für das ganze wurde ein neues Vagrantfile erstellt. Im neuen Vagrantfile wird nur eine VM mit dem Name Docker erstellt. Ausserdem werdem im neuen Vagrantfile mit folgendem Command die Images für Ubuntu 16.04 zur korrekten Funktion von Docker gezogen.
+
+	d.pull_images "ubuntu:16.04"
 
 # Shared Folder:
 Im neuen Shared Folder werden für die Container die benötigten Dateien und Dockerfiles abgelegt.
